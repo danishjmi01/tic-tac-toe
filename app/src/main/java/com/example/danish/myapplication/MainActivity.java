@@ -3,6 +3,7 @@ package com.example.danish.myapplication;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import static android.R.attr.delay;
 
 //import static com.example.danish.myapplication.R.id.textView;
 
@@ -277,8 +280,22 @@ public class MainActivity extends AppCompatActivity {
                 background = R.drawable.diagonal2;
                 break;
         }
-        GridLayout gl = (GridLayout) findViewById(R.id.gridlayout);
-        gl.setBackgroundResource(background);
+        final GridLayout gl = (GridLayout) findViewById(R.id.gridlayout);
+        //gl.animate().alpha(0.0f).setDuration(1);
+        //gl.setBackgroundResource(background);
+        //gl.animate().alpha(1.0f).setDuration(1000);
+        //gl.animate().alpha(1.0f).setDuration(1000);
+        final int  tempbg = background;
+        new CountDownTimer(600, 1000) {
+            public void onFinish() {
+               // gl.setBackgroundResource(background);
+                //gl.animate().alpha(1.0f).setDuration(1000);
+                gl.setBackgroundResource(tempbg);
+            }
+            public void onTick(long millisUntilFinished) {
+                // millisUntilFinished    The amount of time until finished.
+            }
+        }.start();
         //gl.setAlpha(0).;
         return 999;
     }
