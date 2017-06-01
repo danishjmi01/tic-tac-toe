@@ -1,14 +1,18 @@
 package com.example.danish.myapplication;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 //import static com.example.danish.myapplication.R.id.textView;
@@ -23,12 +27,22 @@ public class MainActivity extends AppCompatActivity {
                    };
     int winType = -1;
     boolean gameover = false;
+
+    public void replay(View view){
+        //this.recreate();
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+
+    }
     public void dropIn(View view ){
 
         //this place is alredy played, so return
         if (gameState[Integer.parseInt(view.getTag().toString())] == 0 || gameover == true){
             return;
         }
+        LinearLayout linearlayout = (LinearLayout) findViewById(R.id.linearlayout);
+        linearlayout.setVisibility(View.INVISIBLE);
         ImageView box = (ImageView) view;//findViewById(R.id.imageView4);
         box.setTranslationY(-1000f);
         if( player == 0 ) {
@@ -42,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
             winType = checkWin();
             if(finishOrContinue(winType) != -1){
                 gameover = true;
+                TextView result = (TextView) findViewById(R.id.resultMessageTextView);
+                result.setText("Player 0 has won!");
+                //Button resultButton = (Button) findViewById(R.id.ReplayButton);
+
+                linearlayout.setVisibility(View.VISIBLE);
             }
 
             player = 1;
@@ -58,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
             winType = checkWin();
             if(finishOrContinue(winType) != -1){
                 gameover = true;
+                TextView result = (TextView) findViewById(R.id.resultMessageTextView);
+                result.setText("Player X has won!");
+                TextView resultButton = (TextView) findViewById(R.id.ReplayButton);
+                linearlayout.setVisibility(View.VISIBLE);
             }
             player = 0;
         }
@@ -282,5 +305,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LinearLayout linearlayout = (LinearLayout) findViewById(R.id.linearlayout);
+        linearlayout.setVisibility(View.INVISIBLE);
     }
 }
